@@ -80,9 +80,24 @@ These highly optimized layout computations complete in under one millisecond per
 
 ## Project Structure
 
+The project has been refactored utilizing the **Separation of Concerns (SoC)** principle, heavily segregating logical elements into distinct focused directories:
+
 ```text
-src/app/
-  page.tsx          Main application page containing all demo components
+src/
+  app/
+    page.tsx              Main application orchestrator
+  components/
+    CanvasRenderer.tsx    Canvas-based text rendering component
+    CodeBlock.tsx         Syntax highlighting layout block
+    DragonTextReflow.tsx  Core dynamic reflow simulation engine
+    Metric.tsx            Performance tracking visualization UI
+    Slider.tsx            Input variable controls component
+  constants/
+    index.ts              Global string configurations and fallback layouts
+  types/
+    index.ts              Application typescript interfaces and bounds
+  utils/
+    dragonHelpers.ts      Geometric bounds algorithms and carving utilities
 public/
-  tenor.gif         Animated character asset
+  tenor.gif               Animated character asset
 ```
