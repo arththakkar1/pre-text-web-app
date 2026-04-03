@@ -1,37 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PreText Web App
+
+An interactive typography demonstration built with **Next.js** and [`@chenglou/pretext`](https://github.com/chenglou/pretext), showcasing real-time multilingual text layout without DOM reflows.
+
+## Overview
+
+This project demonstrates the capabilities of the PreText layout engine — a library that measures and flows text using pure arithmetic, eliminating the need for browser layout passes (`getBoundingClientRect`, `offsetWidth`, etc.).
+
+## Features
+
+### Dragon — Live Text Reflow
+
+An animated character bounces around a stage while paragraph text dynamically reflows around its body in real-time at 60 fps. The character is also draggable — text reshapes instantly as it moves.
+
+- `layoutNextLine` handles all text measurement via arithmetic, not DOM reads
+- Circular obstacle carving (`carveSlots` and `circleInterval`) computes clear text slots per line band
+- An imperative DOM element pool eliminates React re-renders during the animation loop
+- Live performance stats: lines rendered, reflow time in milliseconds, and frames per second
+
+### Multilingual Text Support
+
+Eleven languages and scripts are available to demonstrate cross-script layout accuracy:
+
+| Language | Script |
+|---|---|
+| English | Latin |
+| Mixed CJK + Arabic + Emoji | Mixed |
+| Japanese | Hiragana / Kanji |
+| Arabic | Arabic (right-to-left) |
+| Hindi | Devanagari |
+| Korean | Hangul |
+| Thai | Thai |
+| Greek | Greek |
+| Hebrew | Hebrew (right-to-left) |
+| Russian | Cyrillic |
+| Bengali | Bengali |
+
+### Canvas Text Rendering
+
+Demonstrates `prepareWithSegments` and `layoutWithLines` for measuring and laying out multi-line text on a `<canvas>` element, accurate across all languages without triggering browser layout.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Next.js** — React framework
+- **@chenglou/pretext** — zero-reflow text measurement and layout
+- **TypeScript**
+- **Tailwind CSS**
 
-## Learn More
+## Key PreText APIs
 
-To learn more about Next.js, take a look at the following resources:
+| API | Purpose |
+|---|---|
+| `prepareWithSegments` | Segments text into grapheme clusters with font metrics |
+| `layoutNextLine` | Lays out one line at a time into a given width slot |
+| `layoutWithLines` | Full paragraph layout returning lines and total height |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How the Reflow Works
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Each animation frame executes the following steps:
 
-## Deploy on Vercel
+1. The character position is updated via physics simulation or pointer drag
+2. Circle obstacles are computed around the character's center point
+3. `circleInterval` calculates the blocked horizontal range for each text line band
+4. `carveSlots` subtracts obstacles from the full line width to produce free horizontal slots
+5. `layoutNextLine` fills each slot with as much text as fits given the slot width
+6. DOM elements are updated imperatively, bypassing React's render cycle
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The entire layout pass completes in under one millisecond per frame.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# pre-text-web-app
+## Project Structure
+
+```
+src/app/
+  page.tsx          Main page with all demo components
+public/
+  tenor.gif         Animated character asset
+```
