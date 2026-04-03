@@ -187,7 +187,7 @@ layout()   ${benchResult ? benchResult.layout.toFixed(4) + "ms  (calculated run 
                   setActiveDemo(i);
                   setCustomText("");
                 }}
-                className={`text-[11px] font-mono px-3 py-1.5 rounded-md border transition-all ${
+                className={`text-[11px] cursor-pointer font-mono px-3 py-1.5 rounded-md border transition-all ${
                   activeDemo === i && !customText
                     ? "border-orange-500 bg-orange-500/10 text-orange-400"
                     : "border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300"
@@ -232,7 +232,7 @@ layout()   ${benchResult ? benchResult.layout.toFixed(4) + "ms  (calculated run 
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
-              className={`text-[11px] font-mono tracking-wide px-4 py-2 rounded-md transition-all ${
+              className={`text-[11px] cursor-pointer font-mono tracking-wide px-4 py-2 rounded-md transition-all ${
                 tab === t.id
                   ? "bg-orange-500 text-white"
                   : "text-zinc-500 hover:text-zinc-300"
@@ -403,7 +403,7 @@ layout()   ${benchResult ? benchResult.layout.toFixed(4) + "ms  (calculated run 
 
               <button
                 onClick={runBench}
-                className="w-full py-3 rounded-lg border border-orange-500/40 bg-orange-500/10 text-orange-400 font-mono text-sm tracking-wide hover:bg-orange-500/20 active:bg-orange-500/30 transition-colors"
+                className="w-full py-3 cursor-pointer rounded-lg border border-orange-500/40 bg-orange-500/10 text-orange-400 font-mono text-sm tracking-wide hover:bg-orange-500/20 active:bg-orange-500/30 transition-colors"
               >
                 Execute Parameter Benchmarks
               </button>
